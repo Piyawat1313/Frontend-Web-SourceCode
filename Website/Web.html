@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Runner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1 {
+            color: #0056b3;
+        }
+        .container {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .code-input, .output-display {
+            flex: 1;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        textarea {
+            width: 100%;
+            min-height: 250px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            box-sizing: border-box; /* Ensures padding doesn't increase width */
+        }
+        button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        pre {
+            white-space: pre-wrap; /* Preserve whitespace and wrap long lines */
+            word-wrap: break-word; /* Break long words */
+            background-color: #eee;
+            padding: 10px;
+            border-radius: 4px;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+        /* Style for different types of output */
+        .output-success {
+            color: green;
+        }
+        .output-error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Code Runner Simple</h1>
+
+    <div class="container">
+        <div class="code-input">
+            <h2>ใส่โค้ดของคุณที่นี่ (JavaScript)</h2>
+            <textarea id="codeEditor">
+                
+            </textarea>
+            <button onclick="runCode()">รันโค้ด</button>
+        </div>
+
+        <div class="output-display">
+            <h2>ผลลัพธ์</h2>
+            <pre id="output"></pre>
+        </div>
+    </div>
+
+    <script>
+        // เก็บ console.log เดิมไว้ก่อน
+        const originalConsoleLog = console.log;
+        const outputElement = document.getElementById('output');
+
+        // ฟังก์ชันสำหรับดักจับ console.log และแสดงผลในหน้าเว็บ
+        console.log = function(...args) {
+            const message = args.map(arg => typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)).join(' ');
+            const p = document.createElement('p');
+            p.textContent = message;
+            outputElement.appendChild(p);
+            originalConsoleLog(...args); // ยังคงให้ console.log ทำงานใน console ของ browser ด้วย
+        };
+
+        function runCode() {
+            const code = document.getElementById('codeEditor').value;
+            outputElement.innerHTML = ''; // เคลียร์ผลลัพธ์เก่า
+
+            try {
+                // ใช้ new Function() เพื่อรันโค้ด JavaScript
+                // ข้อควรระวัง: การใช้ eval() หรือ new Function() กับโค้ดที่ไม่น่าเชื่อถืออาจมีความเสี่ยงด้านความปลอดภัย
+                new Function(code)();
+                // ถ้าโค้ดไม่มี console.log หรือ alert อาจจะไม่มีอะไรแสดงออกมา
+                if (outputElement.innerHTML === '') {
+                    outputElement.innerHTML = '<p class="output-success">โค้ดทำงานเรียบร้อยแล้ว (อาจไม่มีผลลัพธ์ที่แสดงบนหน้า).</p>';
+                }
+            } catch (error) {
+                const p = document.createElement('p');
+                p.className = 'output-error';
+                p.textContent = `Error: ${error.message}`;
+                outputElement.appendChild(p);
+                originalConsoleLog("Error running code:", error); // แสดง error ใน console ของ browser ด้วย
+            }
+        }
+    </script>
+</body>
+</html>
