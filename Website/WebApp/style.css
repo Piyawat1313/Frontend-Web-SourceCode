@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Playpen+Sans+Thai:wght@100..800&display=swap');
+/*วิธีกการ selecter  CSS   *มันคือการเลือกทุก Tag เลย*/
+p{
+    color: brown;
+    background-color: burlywood;
+    text-align: center;
+    border-radius: 20px;
+    border: 3px dotted gray;
+}
+/*เลือก tag h3 เพื่อเปลี่ยนสีได้*/
+h3{
+    color: crimson;
+    background-color: lemonchiffon;
+    border: 3px dotted green ;
+    width: 200px;
+    text-align: center;
+    border-radius: 20px;
+}
+/* นำ ul เปลี่ยนสี */
+ul,ol{
+    color: black;
+    background-color: whitesmoke;
+    border: 4px dotted red;
+    margin: auto;
+    border-radius: 15px;
+}
+/* หาtag ที่มีคำว่า slogan */
+#slogan{
+    color: palevioletred;
+    background-color: papayawhip;
+}
+.verygreen{
+    color: green;
+    background-color: whitesmoke;
+}
+.Bigfont{
+    font-size: 30px;
+}
+body{
+    /* ทำสีพื้นหลัง */
+    background-color: blanchedalmond;
+    background-image: url("bird.jpg");  /*ใส่รูปพื้นหลัง*/
+    background-size: cover; /*ไม่ให้รูปใหญ่เกินไป และยึดรูปตามขนาดของหน้าเว็บเพจ*/
+    background-attachment: fixed;   /*ไม่ให้เลื่อนตามเม้าที่เราเลื่อน*/
+    font-family: "Playpen Sans Thai", cursive; /*set font*/
+}
+h1{
+    background-color: cornflowerblue;
+    border-style: dashed;
+    border-color: blueviolet;
+    border-width: 5px;
+    border-radius: 10px;
+    margin-top: 50px;
+    /* เว้นระยะขอบแบบเท่าๆกัน */
+    padding: 20px;
+    width: 400px;
+    display: block;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+/* ตั้งค่ารูปที่ใส่หน้าเว็บเพจให้อยู่ตรงกลาง */
+img{
+    display: block;
+    margin: auto;
+    border: 5px solid green;
+    border-radius: 20px;
+}
+/* สร้างเส้นให้ตารางและจัดรูปแบบให้อยู่ตรงกลาง */
+table, 
+th,
+td{
+    text-align: center;
+    border: 3px solid palevioletred;
+    border-collapse: collapse;
+}
+th,
+td{
+    background-color: white;
+}
+table{
+    width: 50%;
+}
+/* สร้างปุ่มลิ้งหน้าเว็บไซต์ */
+a:link,
+a:visited{
+    color: black;
+    background-color: beige;
+    text-decoration: none;
+    display: inline-block;
+    padding: 14px 25px;
+    margin:  5px;
+}
+a:hover,
+a:active{
+    background-color: greenyellow;
+}
+h4{
+    background-color: lemonchiffon;
+    border-radius: 20px;
+    border-style: dotted;
+    border-color: green;
+    color: crimson;
+}
+button {
+  background-color: lemonchiffon;
+  border: none;
+  color: crimson;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 20px;
+  border-style: dotted;
+  border-color: green;
+}

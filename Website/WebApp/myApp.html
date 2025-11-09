@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piyawat Dianpraphai</title>
+    <!-- การเชื่อมไฟล์ไปที่ CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+     <!-- เวลารีโหลดจะขึ้นข้อความบนเว็บ -->
+    <script src="behaivor.js"></script>
+<center><h1 style="color: pink;">กีฬามหาวิทยาลัยครั้งที่ 51 </h1></center>
+
+<h4 style="text-align: center;" id="dateText">วันเวลา</h4>
+    <h4 style="text-align: center;" id="timeOnly">เวลา</h4>
+
+    <script src="behaivor.js"></script>
+
+<!-- การใส่รูปภาพตั้งค่ารูปภาพ-->
+<img id="mypic" src="futsal2.jpg" alt="futsal กีฬามหาวิทยาลัย" width="50%"><br>
+<!-- การใส่ปุ่มซ่อนรูปแสดงรูป-->
+<button onclick="hideImg()">ซ่อนรูป</button>
+<button onclick="showImg()">แสดงรูป</button>
+
+    <script src="behaivor.js"></script>
+
+<!-- การใส่ลิ้ง-->
+<center><a href="http://www.su.ac.th">มหาวิทยาลัยศิลปากร</a> </center><br>
+<hr>
+<p>มหาวิทยาลัยศิลปากร พระราชวังสนามจันทร์</p>
+<h3>คติประจำใจ</h3>   
+<p id="slogan"><b>เข้มแข็ง</b> <i>อ่อนน้อม</i> อดทน</p>   
+<button type="button" onclick="changeSlogan()">เปลี่ยนคติประจำใจ</button>
+
+    <script src="behaivor.js"></script>
+<h3>ความสามารถพิเศษ</h3>
+<p class="verygreen">เล่นฟุตบอลได้เหนียวมากๆ <br> เขียนโปรแกรมได้นิดหน่อย</p>
+<h3>อาหารที่ชอบ</h3>
+<!-- การใส่รายการแบบไม่มีเลข-->
+<ul>
+    <li>ข้าวหมูกรอบ</li>
+    <li>ก๋วยเตี๋ยว</li>
+    <li>ข้าวขาหมู</li>
+</ul>
+<h3>เครื่องดื่มที่ชอบ</h3>
+<!-- การใส่รายการแบบมีเลขลำดับ-->
+<ol>
+    <li>เก๊กฮวย</li>
+    <li>กาแฟ</li>
+    <li>ชานมไข่มุก</li>
+</ol>
+<!-- การสร้างตาราง -->
+ <h3>วันเดือนปีปัจจุบัน</h3>
+<table>
+    <tr>
+        <th>Days </th>
+        <th>Months</th>
+        <th>Years</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>November</td>
+        <td>2025</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>November</td>
+        <td>2025</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>November</td>
+        <td>2025</td>
+    </tr>
+</table>
+<!-- สร้างปุ่มนับการคลิก-->
+<button type="button" onclick="countClick()">คลิกนับจำนวน</button>
+    <p id="countText">จำนวน: 0</p>
+    <script> 
+    let count = 0;
+    function countClick() {
+        count++;
+        document.getElementById("countText").innerHTML = "จำนวน: " + count;
+    }
+    </script>
+    <!-- สร้างปุ่มแปลงค่าเงินดอลลาร์-->
+<button onclick="changeCurrency()">แปลงค่าเงินบาทเป็นดอลล่าร์</button>
+    <script src="behaivor.js"></script>
+    <p id="usd">เงินดอลล่าร์</p>
+</body>
+</html>
