@@ -1,0 +1,113 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css");
+body{
+    background-image: url("/image/flower.jpg");
+    background-color: rgb(243, 209, 209);
+    background-size: cover;
+    /* background-attachment: fixed; */
+
+}
+#heading{
+    text-align: center;
+    color: black;
+    /* background-color:rgb(250, 187, 220); */
+    border-radius: 20px;
+    border-style: groove;
+    border-color: burlywood;
+    padding: 20px;
+    margin: auto;
+    margin-bottom: 20px;
+}
+.navbar {
+    border-radius: 20px;
+    margin: auto;
+    border-color: burlywood;
+    border-style: groove;
+}
+#paragraph{
+    border-radius: 20px;
+    border-color: rgb(202, 199, 236);
+    border-style: dashed;
+    color: rgb(17, 7, 54);
+}
+#firstday{
+    background-image: url("/image/ทิวลิป.jpg");
+    /* background-attachment: fixed; */
+    background-size: cover;
+}
+#firstday1{
+    border-radius: 30px;
+    border-style: groove;
+    margin: auto;
+}
+#remember{
+    border-radius: 30px;
+    border-style: groove;
+    margin: auto;
+    border-color: antiquewhite;
+    background-color: rgb(243, 209, 209);
+}
+#img{
+    border-radius: 20px;
+    display: block;
+    margin: auto;
+    border-style: dotted;
+    border-color: palevioletred;
+
+}
+#return{
+    width: 25%;
+    border-radius: 30px;
+    border-style: double;
+    border-color: blanchedalmond;
+    background-color: rgb(243, 209, 209);
+}
+#change{
+    width: 25%;
+    border-radius: 30px;
+    border-style: double;
+    border-color: blanchedalmond;
+    background-color: rgb(243, 209, 209);
+}
+#return:active{
+    background-color: aliceblue;
+}
+#change:active{
+    background-color: aliceblue;
+}
+#remember22{
+    background-image: url("/image/flower.jpg");
+}
+h4{
+    background-color: rgb(243, 209, 209);
+    border-radius: 30px;
+    border-style: dotted;
+    margin: auto;
+    border-color: rgb(241, 150, 70);
+    width: 75%;
+}
+#heart{
+    background-image: url("/image/ซองจดหมาย.jpg");
+}
+#heart_ppp{
+    border-radius: 30px;
+    border-style: groove;
+    margin: auto;
+    border-color: antiquewhite;
+    color: rgb(7, 0, 14);
+}
+#heart_para{
+    color: rgb(7, 0, 14);;
+}
+#music{
+    border-radius: 30px;
+    border-color: deeppink;
+    border-left: 30px;
+    width: 25%;
+}
+#vip{
+    border-radius: 30px;
+    border-style: groove;
+    margin: auto;
+    border-color: antiquewhite;
+    color: rgb(7, 0, 14);
+}
