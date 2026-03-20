@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Network Quiz — ทดสอบความรู้ระบบเครือข่าย</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --card: #1a2235;
+    --border: #2a3a5c;
+    --accent: #00d4ff;
+    --accent2: #7c3aed;
+    --green: #10b981;
+    --red: #ef4444;
+    --yellow: #f59e0b;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --mono: 'Space Mono', monospace;
+    --thai: 'Sarabun', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--thai);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    animation: fadeDown 0.6s ease;
+  }
+  .header .tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 0.2rem 0.8rem;
+    letter-spacing: 0.2em;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+  .header h1 {
+    font-family: var(--mono);
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    color: #fff;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+  .header h1 span { color: var(--accent); }
+  .header p { color: var(--muted); margin-top: 0.75rem; font-size: 0.95rem; }
+  .score-bar {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    animation: fadeUp 0.5s ease 0.2s both;
+  }
+  .score-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+  }
+  .score-pill .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .dot-total { background: var(--accent); }
+  .dot-correct { background: var(--green); }
+  .dot-wrong { background: var(--red); }
+  .progress-wrap {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    height: 6px;
+    margin-bottom: 2rem;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    transition: width 0.4s ease;
+    border-radius: 4px;
+  }
+  .abbrev-note {
+    background: rgba(245,158,11,0.08);
+    border: 1px solid rgba(245,158,11,0.25);
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    margin-bottom: 2rem;
+    font-size: 0.85rem;
+    color: var(--yellow);
+  }
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 2rem 0 1.25rem;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+  .section-divider::before, .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .q-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.3s ease;
+    animation: slideIn 0.4s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .q-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--accent2);
+    border-radius: 2px 0 0 2px;
+    transition: background 0.3s;
+  }
+  .q-card.correct::before { background: var(--green); }
+  .q-card.wrong::before { background: var(--red); }
+  .q-card.abbrev::before { background: var(--yellow); }
+  .q-num {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+  }
+  .abbrev-badge {
+    display: inline-block;
+    background: rgba(245,158,11,0.15);
+    border: 1px solid var(--yellow);
+    color: var(--yellow);
+    font-size: 0.65rem;
+    font-family: var(--mono);
+    padding: 0.1rem 0.5rem;
+    border-radius: 3px;
+    margin-left: 0.5rem;
+    letter-spacing: 0.1em;
+    vertical-align: middle;
+  }
+  .q-text {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.6;
+    margin-bottom: 0.9rem;
+  }
+  .q-input {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--thai);
+    font-size: 0.95rem;
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    resize: vertical;
+    min-height: 44px;
+  }
+  .q-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0,212,255,0.1);
+  }
+  .q-input.correct-input { border-color: var(--green); background: rgba(16,185,129,0.05); }
+  .q-input.wrong-input { border-color: var(--red); background: rgba(239,68,68,0.05); }
+  .feedback {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+  .feedback.correct-fb { color: var(--green); }
+  .feedback.wrong-fb { color: var(--red); }
+  .answer-show {
+    margin-top: 0.3rem;
+    background: rgba(0,212,255,0.08);
+    border: 1px solid rgba(0,212,255,0.2);
+    border-radius: 6px;
+    padding: 0.4rem 0.75rem;
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    color: var(--accent);
+    word-break: break-word;
+  }
+  .btn-row {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2.5rem;
+    flex-wrap: wrap;
+  }
+  .btn {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    color: #fff;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,212,255,0.25); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover { color: var(--text); border-color: var(--muted); }
+  .result-screen {
+    text-align: center;
+    padding: 3rem 1rem;
+    animation: fadeUp 0.6s ease;
+  }
+  .result-circle {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: 3px solid var(--accent);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    background: radial-gradient(circle at center, rgba(0,212,255,0.1), transparent);
+    box-shadow: 0 0 40px rgba(0,212,255,0.2);
+  }
+  .result-score { font-family: var(--mono); font-size: 2.5rem; color: var(--accent); line-height: 1; }
+  .result-label { font-size: 0.75rem; color: var(--muted); font-family: var(--mono); }
+  .result-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .result-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 2rem; }
+  .result-breakdown { display: flex; gap: 1.5rem; justify-content: center; margin-bottom: 2.5rem; flex-wrap: wrap; }
+  .breakdown-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    min-width: 120px;
+  }
+  .breakdown-num { font-family: var(--mono); font-size: 1.8rem; font-weight: 700; }
+  .breakdown-num.g { color: var(--green); }
+  .breakdown-num.r { color: var(--red); }
+  .breakdown-lbl { font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; }
+  .hidden { display: none !important; }
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes slideIn { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: translateX(0); } }
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <div id="quiz-screen">
+    <div class="header">
+      <div class="tag">// NETWORK QUIZ</div>
+      <h1>ทดสอบความรู้<br><span>ระบบเครือข่าย</span></h1>
+      <p>TCP/IP · DHCP · Security · Protocols · OSI Model</p>
+    </div>
+    <div class="abbrev-note">
+      ⚠️ ข้อที่มีป้าย <strong>ABBREV</strong> — ต้องสะกดคำย่อหรือคำเต็มให้ถูกทุกตัวอักษร ผิดแม้แต่ตัวเดียวถือว่าผิด
+    </div>
+    <div class="score-bar">
+      <div class="score-pill"><span class="dot dot-total"></span><span id="stat-total">0/0</span> ข้อ</div>
+      <div class="score-pill"><span class="dot dot-correct"></span><span id="stat-correct">0</span> ถูก</div>
+      <div class="score-pill"><span class="dot dot-wrong"></span><span id="stat-wrong">0</span> ผิด</div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+    <div id="questions-container"></div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="resetQuiz()">รีเซ็ต</button>
+      <button class="btn btn-primary" onclick="checkAll()">ตรวจคำตอบ ✓</button>
+    </div>
+  </div>
+
+  <div id="result-screen" class="hidden result-screen">
+    <div class="result-circle">
+      <div class="result-score" id="res-score">0/0</div>
+      <div class="result-label">คะแนน</div>
+    </div>
+    <div class="result-title" id="res-title"></div>
+    <div class="result-sub" id="res-sub"></div>
+    <div class="result-breakdown">
+      <div class="breakdown-item">
+        <div class="breakdown-num g" id="res-correct">0</div>
+        <div class="breakdown-lbl">ตอบถูก</div>
+      </div>
+      <div class="breakdown-item">
+        <div class="breakdown-num r" id="res-wrong">0</div>
+        <div class="breakdown-lbl">ตอบผิด</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="reviewAnswers()">ดูคำตอบทั้งหมด</button>
+      <button class="btn btn-primary" onclick="resetQuiz()">เริ่มใหม่</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const questions = [
+  // DHCP
+  { section:"DHCP", text:"DHCP ย่อมาจากอะไร?", answer:"Dynamic Host Configuration Protocol", abbrev:true },
+  { section:"DHCP", text:"DHCP Discover ใช้การส่งแบบใด?", answer:["broadcast"], abbrev:false, hint:"Broadcast" },
+  { section:"DHCP", text:"DHCP Offer คืออะไร?", answer:["เสนอตัวเองเป็น server","server เสนอ","เสนอว่าตัวเองเป็น server"], abbrev:false, hint:"Server เสนอตัวเองว่าพร้อมให้บริการ" },
+  { section:"DHCP", text:"DHCP Request ใช้การส่งแบบใด?", answer:["unicast"], abbrev:false, hint:"Unicast" },
+  { section:"DHCP", text:"DHCP ACK คืออะไร?", answer:["server ยืนยัน","ยืนยัน","รับรู้และยืนยัน","server รับรู้"], abbrev:false, hint:"Server รับรู้และยืนยันตามคำขอ" },
+  { section:"DHCP", text:"DHCP Client ใช้ Port หมายเลขอะไร?", answer:["68"], abbrev:false, hint:"68" },
+  { section:"DHCP", text:"DHCP Server ใช้ Port หมายเลขอะไร?", answer:["67"], abbrev:false, hint:"67" },
+  { section:"DHCP", text:"DHCP ใช้ Transport Protocol ชื่ออะไร?", answer:["udp","UDP"], abbrev:false, hint:"UDP" },
+  // FTP
+  { section:"FTP & File Transfer", text:"FTP ย่อมาจากอะไร?", answer:"File Transfer Protocol", abbrev:true },
+  { section:"FTP & File Transfer", text:"FTP Port 21 ใช้ทำอะไร?", answer:["ควบคุม","control","คำสั่ง"], abbrev:false, hint:"Control — ท่อควบคุม" },
+  { section:"FTP & File Transfer", text:"FTP Port 20 ใช้ทำอะไร?", answer:["ข้อมูล","data","ส่งข้อมูล"], abbrev:false, hint:"Data — ท่อข้อมูล" },
+  { section:"FTP & File Transfer", text:"TFTP ย่อมาจากอะไร?", answer:"Trivial File Transfer Protocol", abbrev:true },
+  { section:"FTP & File Transfer", text:"NFS ย่อมาจากอะไร?", answer:"Network File System", abbrev:true },
+  // TCP & UDP
+  { section:"TCP & UDP", text:"TCP ย่อมาจากอะไร?", answer:"Transmission Control Protocol", abbrev:true },
+  { section:"TCP & UDP", text:"UDP ย่อมาจากอะไร?", answer:"User Datagram Protocol", abbrev:true },
+  { section:"TCP & UDP", text:"TCP กับ UDP ต่างกันอย่างไรในแง่การเชื่อมต่อ?", answer:["tcp มีการเชื่อมต่อ udp ไม่มี","tcp connection-oriented udp connectionless","tcp ต้องเชื่อมต่อก่อน"], abbrev:false, hint:"TCP = Connection-oriented, UDP = Connectionless" },
+  { section:"TCP & UDP", text:"UDP เร็วกว่า TCP เพราะอะไร?", answer:["ไม่มีการเชื่อมต่อ","connectionless","ส่งเลยไม่รอ"], abbrev:false, hint:"ไม่ต้องสร้าง Session ก่อนส่ง" },
+  { section:"TCP & UDP", text:"Three-Way Handshake คือกระบวนการอะไร?", answer:["สร้างการเชื่อมต่อ tcp","tcp connection","syn synack ack"], abbrev:false, hint:"ขั้นตอน 3 ขั้นในการสร้าง TCP Session" },
+  { section:"TCP & UDP", text:"MSS ย่อมาจากอะไร?", answer:"Maximum Segment Size", abbrev:true },
+  { section:"TCP & UDP", text:"MSS = 1460 คำนวณอย่างไร?", answer:["1500 ลบ ip header ลบ tcp header","1500 - ip - tcp","mtu ลบ header"], abbrev:false, hint:"1,500 - (IP Header + TCP Header)" },
+  { section:"TCP & UDP", text:"SACK ย่อมาจากอะไร?", answer:"Selective Acknowledgment", abbrev:true },
+  { section:"TCP & UDP", text:"Retransmit หมายความว่าอะไร?", answer:["ส่งใหม่อีกครั้ง","ส่งซ้ำ","resend"], abbrev:false, hint:"ส่งข้อมูลใหม่อีกครั้ง" },
+  // TCP Control Bits
+  { section:"TCP Control Bits", text:"SYN ย่อมาจากอะไร?", answer:"Synchronize", abbrev:true },
+  { section:"TCP Control Bits", text:"ACK ย่อมาจากอะไร?", answer:"Acknowledgment", abbrev:true },
+  { section:"TCP Control Bits", text:"FIN ย่อมาจากอะไร?", answer:"Finish", abbrev:true },
+  { section:"TCP Control Bits", text:"RST ย่อมาจากอะไร?", answer:"Reset", abbrev:true },
+  { section:"TCP Control Bits", text:"PSH ย่อมาจากอะไร?", answer:"Push", abbrev:true },
+  { section:"TCP Control Bits", text:"URG ย่อมาจากอะไร?", answer:"Urgent", abbrev:true },
+  // DNS & Email
+  { section:"DNS & Email", text:"DNS ย่อมาจากอะไร?", answer:"Domain Name Server", abbrev:true },
+  { section:"DNS & Email", text:"DNS ทำหน้าที่อะไร?", answer:["แปลง domain เป็น ip","resolve domain","แปลงชื่อเป็น ip"], abbrev:false, hint:"แปลงชื่อเว็บเป็น IP Address" },
+  { section:"DNS & Email", text:"DNS ใช้ Port หมายเลขอะไร?", answer:["53"], abbrev:false, hint:"53" },
+  { section:"DNS & Email", text:"SMTP ย่อมาจากอะไร?", answer:"Simple Mail Transfer Protocol", abbrev:true },
+  { section:"DNS & Email", text:"SMTP ใช้ทำอะไร?", answer:["ส่ง email","send email","ส่งจดหมาย"], abbrev:false, hint:"ส่ง Email" },
+  { section:"DNS & Email", text:"IMAP ย่อมาจากอะไร?", answer:"Internet Message Access Protocol", abbrev:true },
+  { section:"DNS & Email", text:"FQDN ย่อมาจากอะไร?", answer:"Fully Qualified Domain Name", abbrev:true },
+  // HTTP & Web
+  { section:"HTTP & Web", text:"HTTP ย่อมาจากอะไร?", answer:"Hypertext Transfer Protocol", abbrev:true },
+  { section:"HTTP & Web", text:"HTTP ใช้ Port หมายเลขอะไร?", answer:["80"], abbrev:false, hint:"80" },
+  { section:"HTTP & Web", text:"HTTPS ใช้ Port หมายเลขอะไร?", answer:["443"], abbrev:false, hint:"443" },
+  { section:"HTTP & Web", text:"URL ย่อมาจากอะไร?", answer:"Uniform Resource Locator", abbrev:true },
+  { section:"HTTP & Web", text:"HTTP Method GET ใช้ทำอะไร?", answer:["ดึงข้อมูลจาก server","get data","ขอข้อมูล"], abbrev:false, hint:"ดึงข้อมูลจาก Server" },
+  { section:"HTTP & Web", text:"HTTP Method POST ใช้ทำอะไร?", answer:["ส่งข้อมูลไปยัง server","send data","ส่งข้อมูล"], abbrev:false, hint:"ส่งข้อมูลไปยัง Server" },
+  // Well-known Ports
+  { section:"Well-known Ports", text:"SSH ใช้ Port หมายเลขอะไร?", answer:["22"], abbrev:false, hint:"22" },
+  { section:"Well-known Ports", text:"Telnet ใช้ Port หมายเลขอะไร?", answer:["23"], abbrev:false, hint:"23" },
+  { section:"Well-known Ports", text:"SMTP ใช้ Port หมายเลขอะไร?", answer:["25"], abbrev:false, hint:"25" },
+  { section:"Well-known Ports", text:"Well-known Ports มีช่วงหมายเลขเท่าไหร่?", answer:["0-1023","0 ถึง 1023"], abbrev:false, hint:"0 - 1,023" },
+  { section:"Well-known Ports", text:"Registered Ports มีช่วงหมายเลขเท่าไหร่?", answer:["1024-49151","1024 ถึง 49151"], abbrev:false, hint:"1,024 - 49,151" },
+  { section:"Well-known Ports", text:"SNMP ย่อมาจากอะไร?", answer:"Simple Network Management Protocol", abbrev:true },
+  // OSI Model
+  { section:"OSI Model", text:"Application Layer มีหน้าที่อะไร?", answer:["ติดต่อผู้ใช้","interface กับผู้ใช้","ติดต่อกับโปรแกรม"], abbrev:false, hint:"ติดต่อกับผู้ใช้และโปรแกรม" },
+  { section:"OSI Model", text:"Presentation Layer ทำหน้าที่อะไร?", answer:["จัดรูปแบบข้อมูล","format data","เข้ารหัส บีบอัด จัดรูปแบบ"], abbrev:false, hint:"Formatting, Compressing, Encrypting" },
+  { section:"OSI Model", text:"Session Layer ทำหน้าที่อะไร?", answer:["จัดการ session","สร้างและปิด session","ควบคุม session"], abbrev:false, hint:"จัดการ Session ระหว่าง Application" },
+  { section:"OSI Model", text:"Transport Layer เป็นตัวเชื่อมระหว่างอะไร?", answer:["app กับ network","application กับ network","โปรแกรมกับเครือข่าย"], abbrev:false, hint:"เชื่อมระหว่าง Application กับ Network" },
+  // Security
+  { section:"Network Security", text:"DDoS ย่อมาจากอะไร?", answer:"Distributed Denial of Service", abbrev:true },
+  { section:"Network Security", text:"DDoS คืออะไร?", answer:["โจมตีทำให้ระบบล่ม","ทำให้บริการหยุดทำงาน","โจมตีระบบ"], abbrev:false, hint:"การโจมตีเพื่อทำให้ระบบหยุดให้บริการ" },
+  { section:"Network Security", text:"Authentication คืออะไร?", answer:["ยืนยันตัวตน","verify identity","ตรวจสอบตัวตน"], abbrev:false, hint:"การยืนยันตัวตนของผู้ใช้" },
+  { section:"Network Security", text:"Authorization คืออะไร?", answer:["กำหนดสิทธิ์","ให้สิทธิ์","สิทธิ์การเข้าถึง"], abbrev:false, hint:"การกำหนดสิทธิ์ว่าเข้าถึงอะไรได้บ้าง" },
+  { section:"Network Security", text:"Firewall แบบ Packet Filtering ทำอะไร?", answer:["กรอง packet","filter packet","ตรวจสอบ packet"], abbrev:false, hint:"กรอง Packet ตามกฎที่กำหนด" },
+  { section:"Network Security", text:"Malware มีกี่ประเภทหลัก และมีอะไรบ้าง?", answer:["3 viruses worms trojan","viruses worms trojan"], abbrev:false, hint:"3 ประเภท: Viruses, Worms, Trojan Horses" },
+  { section:"Network Security", text:"Reconnaissance Attack คืออะไร?", answer:["หาข้อมูลเจาะระบบ","สำรวจระบบ","ค้นหาช่องโหว่"], abbrev:false, hint:"การสำรวจหาข้อมูลก่อนโจมตีระบบ" },
+  { section:"Network Security", text:"VPN ย่อมาจากอะไร?", answer:"Virtual Private Network", abbrev:true },
+  // IPv6
+  { section:"IPv6", text:"IPv6 มีขนาดกี่ bit?", answer:["128","128 bit"], abbrev:false, hint:"128 bit" },
+  { section:"IPv6", text:"SLAAC ย่อมาจากอะไร?", answer:"Stateless Address Autoconfiguration", abbrev:true },
+  { section:"IPv6", text:"SLAAC ช่วยทำอะไร?", answer:["สร้าง ipv6 ได้ด้วยตัวเองไม่ต้องมี server","สร้าง ip ได้เอง","autoconfigure ipv6"], abbrev:false, hint:"Computer สามารถสร้างแปล IPv6 ได้ด้วยตัวเองโดยไม่ต้องมี Server" },
+  { section:"IPv6", text:"Anycast ใน IPv6 คืออะไร?", answer:["ส่งไปยังเครือข่ายที่ใกล้ที่สุด","ส่งไปใกล้ที่สุด","closest node"], abbrev:false, hint:"ส่งไปยังเครือข่ายที่ใกล้เคียงที่สุด" },
+  { section:"IPv6", text:"IPv6 Prefix มีขนาดกี่ bit?", answer:["64","64 bit"], abbrev:false, hint:"64 bit" },
+  { section:"IPv6", text:"IPv6 Interface ID มีขนาดกี่ bit?", answer:["64","64 bit"], abbrev:false, hint:"64 bit" },
+  { section:"IPv6", text:"การย่อ IPv6 เมื่อมีหลาย 0 ต่อกัน ใช้สัญลักษณ์อะไรแทน?", answer:["::","double colon"], abbrev:false, hint:":: (double colon)" },
+  { section:"IPv6", text:"วิธีเชื่อม IPv4 กับ IPv6 มีกี่วิธีหลัก และมีอะไรบ้าง?", answer:["3 dual stack tunneling translation","dual stack tunneling translation"], abbrev:false, hint:"3 วิธี: Dual Stack, Tunneling, Translation" },
+  { section:"IPv6", text:"Tunneling ใน IPv6 คืออะไร?", answer:["ห่อ ipv6 ใน ipv4","brap ipv6 ใน ipv4","ส่ง ipv6 ผ่านโครงสร้าง ipv4"], abbrev:false, hint:"ห่อหุ้ม IPv6 ไว้ใน IPv4 เพื่อส่งผ่านโครงสร้างเดิม" },
+
+  // ARP
+  { section:"ARP & MAC", text:"ARP ย่อมาจากอะไร?", answer:"Address Resolution Protocol", abbrev:true },
+  { section:"ARP & MAC", text:"ARP ทำหน้าที่อะไร?", answer:["หา mac address","แปลง ip เป็น mac","resolve mac"], abbrev:false, hint:"ช่วยในการหา MAC Address จาก IP Address" },
+  { section:"ARP & MAC", text:"ARP Request ใช้การส่งแบบใด?", answer:["broadcast"], abbrev:false, hint:"Broadcast" },
+  { section:"ARP & MAC", text:"ARP Reply ใช้การส่งแบบใด?", answer:["unicast"], abbrev:false, hint:"Unicast" },
+  { section:"ARP & MAC", text:"ARP table คืออะไร?", answer:["ตารางเก็บ ip คู่กับ mac","จับคู่ ip กับ mac","mapping ip mac"], abbrev:false, hint:"ตารางที่เก็บ IP Address คู่กับ MAC Address" },
+  { section:"ARP & MAC", text:"ARP Spoofing คืออะไร?", answer:["หลอกว่าตัวเองเป็นเครื่องปลายทาง","ปลอม mac","หลอก arp"], abbrev:false, hint:"การหลอกให้เครื่องอื่นคิดว่าตัวเองเป็นเครื่องปลายทาง" },
+  { section:"ARP & MAC", text:"MAC Address อยู่ที่ Layer ใด?", answer:["layer 2","l2","2"], abbrev:false, hint:"Layer 2" },
+  { section:"ARP & MAC", text:"IP Address อยู่ที่ Layer ใด?", answer:["layer 3","l3","3"], abbrev:false, hint:"Layer 3" },
+  { section:"ARP & MAC", text:"IP Static คืออะไร?", answer:["ip ที่ไม่เปลี่ยนแปลง","ip คงที่","fixed ip"], abbrev:false, hint:"IP ที่กำหนดตายตัว ไม่เปลี่ยนแปลง" },
+  { section:"ARP & MAC", text:"IP Dynamic คืออะไร?", answer:["ip ที่เปลี่ยนได้ตามเครือข่าย","ip เปลี่ยนได้","dynamic ip"], abbrev:false, hint:"IP ที่เปลี่ยนไปตามเครือข่ายที่เชื่อมต่อ" },
+
+  // IPv4 Classes
+  { section:"IPv4 Classes", text:"IPv4 Class A ครอบคลุมช่วง IP อะไร?", answer:["0.0.0.0 - 127.255.255.255","0.0.0.0 ถึง 127.255.255.255"], abbrev:false, hint:"0.0.0.0 - 127.255.255.255" },
+  { section:"IPv4 Classes", text:"IPv4 Class B ครอบคลุมช่วง IP อะไร?", answer:["128.0.0.0 - 191.255.255.255","128 ถึง 191"], abbrev:false, hint:"128.0.0.0 - 191.255.255.255" },
+  { section:"IPv4 Classes", text:"IPv4 Class C ครอบคลุมช่วง IP อะไร?", answer:["192.0.0.0 - 223.255.255.255","192 ถึง 223"], abbrev:false, hint:"192.0.0.0 - 223.255.255.255" },
+  { section:"IPv4 Classes", text:"IPv4 Class D ใช้ทำอะไร?", answer:["multicast"], abbrev:false, hint:"Multicast" },
+  { section:"IPv4 Classes", text:"IPv4 Class E ใช้ทำอะไร?", answer:["research","วิจัย"], abbrev:false, hint:"Research (สำรองไว้เพื่อการวิจัย)" },
+  { section:"IPv4 Classes", text:"Classless คืออะไร?", answer:["แบ่ง ip ตามความต้องการ","แบ่งตามต้องการ","cidr"], abbrev:false, hint:"แบ่ง IP ตามความต้องการจริงๆ ไม่ยึด Class" },
+  { section:"IPv4 Classes", text:"Classful คืออะไร?", answer:["แบ่ง ip แบบเดิม สิ้นเปลือง","แบ่งตาม class เดิม","fixed class"], abbrev:false, hint:"แบ่ง IP แบบเดิมตาม Class สิ้นเปลืองพื้นที่" },
+  { section:"IPv4 Classes", text:"IPv4 มีการส่งข้อมูล 3 แบบ ได้แก่อะไรบ้าง?", answer:["unicast multicast broadcast"], abbrev:false, hint:"Unicast, Multicast, Broadcast" },
+  { section:"IPv4 Classes", text:"Unicast คือการส่งแบบใด?", answer:["1 to 1","หนึ่งถึงหนึ่ง","ส่งคนเดียว"], abbrev:false, hint:"1 to 1 — ส่งถึงผู้รับเพียงคนเดียว" },
+  { section:"IPv4 Classes", text:"Multicast คือการส่งแบบใด?", answer:["1 to many","หนึ่งถึงหลายคน","กลุ่ม"], abbrev:false, hint:"1 to Many — ส่งถึงกลุ่มผู้รับ" },
+  { section:"IPv4 Classes", text:"Broadcast คือการส่งแบบใด?", answer:["1 to all","ส่งทุกคน","ทุกเครื่อง"], abbrev:false, hint:"1 to All — ส่งถึงทุกเครื่องในวง" },
+
+  // Subnetting & Network
+  { section:"Subnetting & Network", text:"Subnetting คืออะไร?", answer:["แบ่ง network ใหญ่เป็นเล็ก","แบ่ง network","subnet"], abbrev:false, hint:"การแบ่ง Network ใหญ่ให้เป็น Network ย่อยๆ" },
+  { section:"Subnetting & Network", text:"Network Address คือ IP ที่ host bit ทั้งหมดเป็นอะไร?", answer:["0","ศูนย์ทั้งหมด"], abbrev:false, hint:"Host bit ทั้งหมดเป็น 0" },
+  { section:"Subnetting & Network", text:"Broadcast Address คือ IP ที่ host bit ทั้งหมดเป็นอะไร?", answer:["1","หนึ่งทั้งหมด"], abbrev:false, hint:"Host bit ทั้งหมดเป็น 1" },
+  { section:"Subnetting & Network", text:"Broadcast Domain คืออะไร?", answer:["วงที่รับ broadcast ได้","กลุ่มที่รับ broadcast","1 router = 1 broadcast domain"], abbrev:false, hint:"1 Router = 1 Broadcast Domain" },
+  { section:"Subnetting & Network", text:"Collision Domain คืออะไร?", answer:["ขอบเขต switch แต่ละพอร์ต","แต่ละพอร์ต switch","per port switch"], abbrev:false, hint:"แต่ละพอร์ตของ Switch คือ 1 Collision Domain" },
+  { section:"Subnetting & Network", text:"Router กั้น Broadcast ได้หรือไม่?", answer:["ได้","กั้นได้","yes"], abbrev:false, hint:"ได้ — Router ไม่ส่ง Broadcast ผ่านไปอีก Network" },
+  { section:"Subnetting & Network", text:"Logical AND ใช้ทำอะไรใน IP?", answer:["คำนวณ network address","ip x subnet mask","หา network address"], abbrev:false, hint:"IP × Subnet Mask = Network Address" },
+  { section:"Subnetting & Network", text:"DMZ ย่อมาจากอะไร?", answer:"Demilitarized Zone", abbrev:true },
+  { section:"Subnetting & Network", text:"DMZ คืออะไร?", answer:["zone กลางระหว่าง internet กับ intranet","zone กั้น","buffer zone"], abbrev:false, hint:"Zone กั้นกลางระหว่าง Internet และ Intranet" },
+  { section:"Subnetting & Network", text:"Public IPv4 Address คืออะไร?", answer:["ip ที่ใช้บน internet ทั่วโลก","ip สาธารณะ","routable ip"], abbrev:false, hint:"IP ที่ใช้ได้บน Internet ทั่วโลก" },
+
+  // IP Addressing
+  { section:"IP Addressing", text:"NAT ย่อมาจากอะไร?", answer:"Network Address Translation", abbrev:true },
+  { section:"IP Addressing", text:"NAT ทำหน้าที่อะไร?", answer:["แปลง ip private เป็น ip public","แปลง private เป็น public","translate ip"], abbrev:false, hint:"แปลง IP Private → IP Public เพื่อออก Internet" },
+  { section:"IP Addressing", text:"Loopback Address คือ IP อะไร?", answer:["127.0.0.1"], abbrev:false, hint:"127.0.0.1" },
+  { section:"IP Addressing", text:"Link-Local Address คือช่วง IP อะไร?", answer:["169.254","169.254.x.x"], abbrev:false, hint:"169.254.x.x" },
+  { section:"IP Addressing", text:"Prefix ยิ่งมาก Network จะเป็นอย่างไร?", answer:["เล็กลง","network เล็ก","วงเล็ก"], abbrev:false, hint:"Prefix มาก = Network เล็ก มี Host น้อย" },
+];
+
+function norm(s) {
+  return s.toLowerCase().trim().replace(/\s+/g,' ').replace(/[.,!?]/g,'');
+}
+
+function checkAnswer(q, userRaw) {
+  const user = norm(userRaw);
+  if (user === '') return null;
+  if (q.abbrev) {
+    return user === q.answer.toLowerCase().trim();
+  }
+  const answers = Array.isArray(q.answer) ? q.answer : [q.answer];
+  return answers.some(a => {
+    const na = norm(a);
+    return user === na || user.includes(na) || na.includes(user);
+  });
+}
+
+function render() {
+  const container = document.getElementById('questions-container');
+  container.innerHTML = '';
+  let lastSection = '';
+  questions.forEach((q, i) => {
+    if (q.section !== lastSection) {
+      const div = document.createElement('div');
+      div.innerHTML = `<div class="section-divider">${q.section}</div>`;
+      container.appendChild(div);
+      lastSection = q.section;
+    }
+    const card = document.createElement('div');
+    card.className = 'q-card' + (q.abbrev ? ' abbrev' : '');
+    card.id = `card-${i}`;
+    card.innerHTML = `
+      <div class="q-num">ข้อ ${i+1}${q.abbrev ? ' <span class="abbrev-badge">ABBREV</span>' : ''}</div>
+      <div class="q-text">${q.text}</div>
+      <textarea class="q-input" id="input-${i}" rows="2" placeholder="พิมพ์คำตอบที่นี่..."></textarea>
+      <div class="feedback hidden" id="feedback-${i}"></div>
+    `;
+    container.appendChild(card);
+  });
+  updateStats();
+}
+
+function updateStats() {
+  const total = questions.length;
+  let answered = 0;
+  questions.forEach((_,i) => {
+    const el = document.getElementById(`input-${i}`);
+    if (el && el.value.trim()) answered++;
+  });
+  document.getElementById('stat-total').textContent = `${answered}/${total}`;
+  document.getElementById('progress-fill').style.width = (answered/total*100) + '%';
+}
+
+function checkAll() {
+  let correct = 0, wrong = 0;
+  questions.forEach((q, i) => {
+    const input = document.getElementById(`input-${i}`);
+    const feedback = document.getElementById(`feedback-${i}`);
+    const card = document.getElementById(`card-${i}`);
+    const result = checkAnswer(q, input.value);
+    card.classList.remove('correct','wrong');
+    input.classList.remove('correct-input','wrong-input');
+    if (result === null) { feedback.classList.add('hidden'); return; }
+    feedback.classList.remove('hidden');
+    if (result) {
+      correct++;
+      card.classList.add('correct');
+      input.classList.add('correct-input');
+      feedback.className = 'feedback correct-fb';
+      feedback.innerHTML = '✓ ถูกต้อง!';
+    } else {
+      wrong++;
+      card.classList.add('wrong');
+      input.classList.add('wrong-input');
+      const ans = Array.isArray(q.answer) ? q.answer[0] : q.answer;
+      const hintText = q.hint || ans;
+      feedback.className = 'feedback wrong-fb';
+      feedback.innerHTML = `✗ ผิด — คำตอบที่ถูกต้อง:<div class="answer-show">${ans}</div>`;
+    }
+  });
+  document.getElementById('stat-correct').textContent = correct;
+  document.getElementById('stat-wrong').textContent = wrong;
+  if (correct + wrong > 0) {
+    setTimeout(() => showResult(correct, wrong), 500);
+  }
+}
+
+function showResult(correct, wrong) {
+  const total = questions.length;
+  const pct = Math.round(correct/total*100);
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.remove('hidden');
+  document.getElementById('res-score').textContent = `${correct}/${total}`;
+  document.getElementById('res-correct').textContent = correct;
+  document.getElementById('res-wrong').textContent = wrong;
+  let title, sub;
+  if (pct>=90){title='🏆 ยอดเยี่ยมมาก!';sub='เชี่ยวชาญระบบเครือข่ายมากๆ';}
+  else if(pct>=75){title='🎯 ดีมาก!';sub='เกือบสมบูรณ์แบบแล้ว';}
+  else if(pct>=60){title='📚 พอใช้ได้';sub='ทบทวนเพิ่มเติมอีกนิด';}
+  else if(pct>=40){title='⚡ ยังต้องฝึกอีก';sub='กลับไปอ่านบันทึกใหม่นะ';}
+  else{title='💡 เริ่มต้นใหม่!';sub='ทบทวนเนื้อหาก่อนลองใหม่';}
+  document.getElementById('res-title').textContent = title;
+  document.getElementById('res-sub').textContent = sub;
+}
+
+function reviewAnswers() {
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  document.getElementById('result-screen').classList.add('hidden');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function resetQuiz() {
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  document.getElementById('result-screen').classList.add('hidden');
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+document.addEventListener('input', e => {
+  if (e.target.classList.contains('q-input')) updateStats();
+});
+
+render();
+</script>
+</body>
+</html>
