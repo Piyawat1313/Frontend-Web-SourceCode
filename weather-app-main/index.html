@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+  
+  <title>Frontend Mentor | Weather app</title>
+  <link rel="stylesheet" href="/style/desktop.css">
+  <link rel="stylesheet" href="/style/mobile.css">
+  <script type="module" src="/javascript/script.js" defer></script>
+  <script type="module" src="/javascript/dropdown-list-day.js" defer></script>
+  <script type="module" src="/javascript/Toggle-error.js"></script>
+  <script type="module" src="/javascript/loading.js"></script>
+  <script type="module" src="/javascript/statusSearch.js"></script>
+  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+</head>
+<body>
+  
+  <div class="app-wrapper">
+    <nav class="top-nav">
+      <div class="logo">
+        <img src="/assets/images/logo.svg" alt="logo weather now">
+      </div>
+      
+      <div class="unit-container">
+        <button class="units-btn" id="unitsBTN">
+        <img src="/assets/images/icon-units.svg" alt="settings">
+        Units 
+        <img src="/assets/images/icon-dropdown.svg" alt="dropdown"></button>
+      </div>
+
+      <div class="units-dropdown" id="unitsDropdown">
+        <div class="dropdown-section">
+          <p>Switch to <span id="target">Imperial</span></p>
+        </div>
+
+        <div class="dropdown-group">
+          <label>Temperature</label>
+          <div class="option active" data-type="temp" data-value="metric">
+            Celsius (°C)
+            <span>✓</span>
+          </div>
+          <div class="option" data-type="temp" data-value="imperial">Fahrenheit (°F)
+          </div>
+        </div>
+
+        <div class="dropdown-group">
+            <label>Wind Speed</label>
+            <div class="option active" data-type="wind" data-value="metric">km/h <span>✓</span></div>
+            <div class="option" data-type="wind" data-value="imperial">mph</div>
+          </div>
+
+
+        <div class="dropdown-group">
+          <label>Precipitation</label>
+          <div class="option active" data-type="Precipition" data-value="metric">Millimeters (mm) <span>✓</span></div>
+            <div class="option" data-type="Precipition" data-value="imperial">Inches (in)</div>
+        </div>  
+      </div>
+      
+      
+    </nav>
+    <header class="hero-header">
+      <h1>How's the sky looking today?</h1>
+
+
+      <div class="search-area-wrapper">
+        <div class="search">
+          <img src="/assets/images/icon-search.svg"></img>
+        <input type="text"
+        placeholder="Search for a place...">
+
+         <!-- แถบ search in progress -->
+      <div class="search-status-bar" id="searchStatus">
+        <div class="spinner"></div> <!-- หมุนๆด้านซ้าย-->
+        <span>Search in progess</span>
+      </div>
+
+        <button>Search</button>
+        </div>
+
+       
+      </div>
+    </header>
+
+    <main class="main-layout">
+      <div class="left-content">
+        <section class="current-weather">
+          <div>
+            <h2>Berlin, Germany</h2>
+            <p>Tuesday, Aug 5, 2025</p>
+          </div>
+
+          <img src="/assets/images/icon-sunny.webp" alt="sunny" width="80px">
+          <div class="city-temp">20°</div>
+        </section>
+
+        <section class="stats">
+          <div class="stats-card"><span>Feels Like</span><strong>18°</strong></div>
+          <div class="stats-card"><span>Humidity</span><strong>46%</strong></div>
+          <div class="stats-card"><span>Wind</span><strong>14 km/h</strong></div>
+          <div class="stats-card"><span>Precipitation</span><strong>0 mm</strong></div>
+        </section>
+        <section class="daily-forecast">
+          <h3>Daily forecast</h3>
+          <div class="daily-grid">
+
+            <div class="day-item">
+              <p>Tue</p>
+              <img src="/assets/images/icon-rain.webp" alt="rainy-little">
+              <span>20° 14°</span>
+            </div>
+
+
+            <div class="day-item">
+              <p>Wed</p>
+              <img src="/assets/images/icon-drizzle.webp" alt="rainy-more">
+              <span>21°  15°</span>
+            </div>
+
+            <div class="day-item">
+              <p>Thu</p>
+              <img src="/assets/images/icon-sunny.webp" alt="sunny">
+              <span>24°  14°</span>
+            </div>
+
+            <div class="day-item">
+              <p>Fri</p>
+              <img src="/assets/images/icon-partly-cloudy.webp" alt="clound-sunny">
+              <span>25°  13°</span>
+            </div>
+
+            <div class="day-item">
+              <p>Sat</p>
+              <img src="/assets/images/icon-storm.webp" alt="storm-rainy">
+              <span>25°  15°</span>
+            </div>
+
+            <div class="day-item">
+              <p>Sun</p>
+              <img src="/assets/images/icon-snow.webp" alt="snow-cold">
+              <span>25°  16°</span>
+            </div>
+
+            <div class="day-item">
+              <p>Mon</p>
+              <img src="/assets/images/icon-fog.webp" alt="windy">
+              <span>24°   15°</span>
+            </div>
+          </div>
+        </section>
+      </div>
+      <aside class="main-right">
+        <div class="hourly-card">
+          <div class="hourly-header">
+            <h3>Hourly forecast</h3>
+
+            <div class="day-select">
+              <button class="dropdown-list-day" id="daySelectBtn">
+            Tuesday
+            <img src="/assets/images/icon-dropdown.svg" alt="Dropdown">
+          </button>
+
+          <ul class="day-dropdown-menu" id="dayDropdownMenu">
+            <li data-day="Monday">Monday</li>
+            <li data-day="Tuesday">Tuesday</li>
+            <li data-day="Wednesday">Wednesday</li>
+            <li data-day="Thursday">Thursday</li>
+            <li data-day="Friday">Friday</li>
+            <li data-day="Saturday">Saturday</li>
+            <li data-day="Sunday">Sunday</li>
+          </ul>
+            </div>
+          </div>
+          
+          <ul class="hourly-list">
+            <li>
+              <img src="/assets/images/icon-overcast.webp" alt="clound">
+              <span>3 PM</span>
+              <span>20°</span>
+            </li>
+              
+            <li>
+              <img src="/assets/images/icon-partly-cloudy.webp" alt="partly-cloundy">
+              <span>4 PM</span>
+              <span>20°</span>
+            </li>
+
+            <li>
+              <img src="/assets/images/icon-sunny.webp" alt="sunny">
+              <span>5 PM</span>
+              <span>20°</span>
+            </li>
+
+            <li>
+              <img src="/assets/images/icon-overcast.webp" alt="cloundy">
+              <span>6 PM</span>
+              <span>19°</span>
+            </li>
+
+            <li>
+              <img src="/assets/images/icon-snow.webp" alt="snow1">
+              <span>7 PM</span>
+              <span>18°</span>
+            </li>
+
+            <li>
+              <img src="/assets/images/icon-fog.webp" alt="windy">
+              <span>8 PM</span>
+              <span>18°</span>
+            </li>
+
+            <li>
+              <img src="/assets/images/icon-snow.webp" alt="snow2">
+              <span>9 PM</span>
+              <span>17°</span>
+            </li>
+
+            <li>
+              <img src="/assets/images/icon-overcast.webp" alt="clound">
+              <span>10 PM</span>
+              <span>17°</span>
+            </li>
+          </ul>
+        </div>
+      </aside>     
+    </main>
+
+    <div class="error-container" id="errorState">
+      <div class="error-content">
+        <img src="/assets/images/icon-error.svg" alt="error-icon">
+        <h2>Something went wrong</h2>
+        <p>We couldn't connect to the server (API error). Please try again in a few moments.</p>
+        <button id="retryBtn" class="retry-button">
+          <img src="/assets/images/icon-retry.svg" alt="retry-icon">Retry
+        </button>
+      </div>
+    </div>
+  </div>
+  <footer class="attribution">
+    Challenge by <a href="https://www.frontendmentor.io?ref=challenge">Frontend Mentor</a>. 
+    Coded by <a href="#">Your Name Here</a>.
+  </footer>
+</body>
+</html>

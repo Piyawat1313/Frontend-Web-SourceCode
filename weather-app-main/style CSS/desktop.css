@@ -1,0 +1,730 @@
+*, *::before, *::after{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color: hsl(243, 96%, 9%);
+    color: white;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    min-height: 100vh;
+}
+/* =======================
+    navbar
+========================== */
+.top-nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.logo img{
+    height: 32px;
+    width: auto;
+}
+
+/* ========================
+    dropdown-units
+========================== */
+.units-btn{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    color: white;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+
+}
+
+.units-btn:hover{
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* ========================
+    dropdown-units size
+========================== */
+.units-btn img{
+    width: 16px;
+    height: 16px;
+}
+
+/* ========================
+    dropdown-units Menu
+========================== */
+.units-dropdown{
+    display: none;
+    position: absolute;
+    top: 70px;
+    right: 0;
+    left: 75%;
+    background: #1a1b3a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    width: 240px;
+    padding: 12px 0;
+    z-index: 1000;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+/* ========================
+    dropdown-units paragraph Switch to
+========================== */
+.dropdown-section p{
+    padding: 12px 10px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+
+/* ========================
+    dropdown-units เมื่อเอาเม้าไปชี้ตรง Switch to
+========================== */
+.dropdown-section p:hover{
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+}
+
+
+/* ========================
+    dropdown-units Menu แต่ละ column
+========================== */
+.dropdown-group{
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ========================
+    dropdown-units Menu text
+========================== */
+.dropdown-group label{
+    display: block;
+    padding: 0 16px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+
+/* ========================
+    dropdown-units Menu ตัวที่ติ๊กถูก
+========================== */
+.units-dropdown .option{
+    padding: 8px 16px;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+
+/* =========================================
+    dropdown-units Menu เมื่อเอาเม้าไปชี้ option
+============================================ */
+.units-dropdown .option:hover{
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.units-dropdown .option span{
+    color: #4f6ef7;
+}
+
+
+/* ========================
+    Header
+========================== */
+.hero-header{
+    text-align: center;
+    padding: 32px 20px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* ========================
+    h1 size
+========================== */
+.hero-header h1{
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 24px;
+    line-height: 1.2;
+}
+
+/* ========================
+    search 
+========================== */
+.search{
+    display: flex;
+    gap: 10px;
+    max-width: 580px;
+    margin: 0 auto;
+    position: relative;
+}
+
+
+/* ========================
+    search input
+========================== */
+.search input{
+    flex: 1;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    padding: 12px 16px 12px 42px;
+    color: white;
+    font-size: 0.95rem;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+/* ========================
+    search input color placeholder
+========================== */
+.search input::placeholder{
+    color: rgba(255, 255, 255, 0.35);
+}
+
+
+
+/* ========================
+    search input img icon
+========================== */
+.search img{
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+
+/* ========================
+    search input status ซ่อนเนื้อหาไว้ก่อน search
+========================== */
+
+.search-status-bar{
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 80%;
+    background: #1a1b3a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    padding: 12px 16px;
+    z-index: 100;
+    gap: 10px;
+    justify-content:flex-start;
+    margin: auto;
+}
+
+.search-area-wrapper{
+    position: relative;
+    margin: 0 auto;
+    
+}
+
+/* ========================
+    search input status spinner
+========================== */
+.spinner{
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin{
+    to { transform: rotate(360deg);}
+}
+
+.search input:focus{
+    outline: none;
+    border-color: #4f6ef7;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* ========================
+    search button
+========================== */
+.search button{
+    background: #4f6ef7;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 28px;
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, tranform 0.15s;
+    white-space: nowrap;
+}
+
+/* ========================
+    เมื่อเอาเม้าไปชี้ตรง button
+========================== */
+.search button:hover{
+    background: #3d5ce5;
+    transform: translateY(-1px);
+}
+
+/* ========================
+    เมื่อเอาเม้ากดไปที่ button
+========================== */
+.search button:active{
+    transform: translateY(0);
+}
+
+
+/* ========================
+    No Result State
+========================== */
+.no-result-state{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+    width: 100%;
+    grid-column: 1 / -1;
+}
+
+
+/* ========================
+    No Result State text
+========================== */
+.no-result-state-text{
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: white;
+}
+
+
+/* ========================
+    main
+========================== */
+.main-layout{
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+    padding: 0 20px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: start;
+}
+
+.left-content{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+/* ========================
+    card weather
+========================== */
+.current-weather{
+    /* background: linear-gradient(135deg, #3a5bd9 0%, #4d6ef0 100%); */
+    background-image: url('/assets/images/bg-today-large.svg');
+    border-radius: 20px;
+    padding: 32px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    min-height: 250px;
+}
+
+.current-weather::before{
+    content: "";
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.07);
+    top: -60px;
+    right: -40px;
+    pointer-events: none;
+}
+
+.current-weather::after{
+    content: "";
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+    bottom: 10px;
+    left: 35%;
+    pointer-events: none;
+}
+
+/* ========================
+    card weather h2
+========================== */
+.current-weather h2{
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 6px;
+}
+
+/* ========================
+    card weather paragraph
+========================== */
+.current-weather p{
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.875rem;
+}
+
+/* ========================
+    card weather อุณหภูมิ
+========================== */
+.city-temp{
+    font-size: 4.5rem;
+    font-weight: 700;
+    color: white;
+    line-height: 1;
+    position: relative;
+    z-index: 1;
+}
+
+
+/* ========================
+    stats bottom card weather text
+========================== */
+.stats{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 0;
+}
+
+
+/* ========================
+    stats card
+========================== */
+.stats-card{
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+
+/* ========================
+    stats card paragraph
+========================== */
+.stats-card span{
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+
+/* ========================
+    stats card Number
+========================== */
+.stats-card strong{
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: white;
+}
+
+/* ========================
+    daily forecast
+========================== */
+.daily-forecast h3{
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+
+.daily-grid{
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+}
+
+/* ========================
+    ซ่อน scrollbar chorme
+========================== */
+.daily-grid::-webkit-scrollbar{
+    display: none;
+}
+
+
+/* ========================
+    day
+========================== */
+.day-item{
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 12px 8px;
+    margin: 5px;
+    text-align: center;
+    min-width: 82px;
+    min-height: 150px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.8rem;
+    transition: background 0.2s, border-color 0.2s;
+    cursor: pointer;
+}
+
+/* ========================
+    เมื่อเอาเม้าไปชี้ตรง card day
+========================== */
+.day-item:hover{
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ========================
+    card day image
+========================== */
+.day-item img{
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+}
+
+/* ========================
+    card day span
+========================== */
+.day-item span{
+    margin-top: auto;
+}
+
+/* ========================
+    Right sidebar
+========================== */
+.main-right{
+    position: sticky;
+    top: 20px;
+}
+
+/* ========================
+    side bar card h3
+========================== */
+.hourly-card{
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 20px;
+}
+
+
+/* ========================
+    side bar h3
+========================== */
+.hourly-card h3{
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 0px;
+}
+
+
+/* ========================
+    side bar header dropdown list Day
+========================== */
+.hourly-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+/* ========================
+    side bar header dropdown list Day select
+========================== */
+.day-select{
+    position: relative;
+    display: inline-block;
+}
+.day-dropdown-menu{
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background-color: #1a1b3a;
+    border:  1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 8px 0;
+    min-width: 140px;
+    list-style: none;
+    z-index: 100;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+
+
+.day-dropdown-menu li{
+    padding: 10px 16px;
+    color:  white;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+
+/* ========================
+    side bar dropdown List Day
+========================== */
+.dropdown-list-day{
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.8rem;
+    padding: 5px 12px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+}
+
+
+/* ========================
+    side bar list
+========================== */
+.hourly-list{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+
+.hourly-list li{
+    display: grid;
+    grid-template-columns: 36px 1fr auto;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin: 4px;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.875rem;
+    transition: background 0.2s;
+}
+
+.hourly-list img{
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+}
+
+
+/* ========================
+    side bar list เมื่อเอาเม้าไปชี้
+========================== */
+.hourly-list li:hover{
+    background: rgba(255, 255, 255, 0.09);
+}
+
+/* ========================
+    error page
+========================== */
+.error-container{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: hsl(243, 96%, 9%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    text-align: center;
+}
+
+/* ========================
+    error text header
+========================== */
+.error-content h2{
+    font-size: 2.5rem;
+    margin: 20px 0;
+}
+
+/* ========================
+    error content paragraph
+========================== */
+.error-content p{
+    color: rgba(255, 255, 255, 0.7);
+    max-width: 400px;
+    margin: 0 auto 24px;
+}
+
+/* ========================
+    error ปุ่ม retry
+========================== */
+.retry-button{
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 10px 24px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 auto;
+}
+
+/* ========================
+    footer
+========================== */
+.attribution{
+    font-size: 0.6875rem;
+    text-align: center;
+    padding: 20px;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+
+/* ========================
+    a link footer
+========================== */
+.attribution a{
+    color: hsl(228, 45%, 64%);
+}
+
+ 

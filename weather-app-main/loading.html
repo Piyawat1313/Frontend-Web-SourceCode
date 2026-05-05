@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/images/favicon-32x32.png"
+    />
+      <link rel="stylesheet" href="/style/style.css">
+    <link rel="stylesheet" href="/style/isLoading.css">
+    <title>Frontend Mentor | Weather app</title>
+  </head>
+  <body>
+    <div class="main-layout">
+      <div class="left-content">
+        <section class="is-loading-state">
+          <div class="loader-content">
+            <div class="dots">...</div>
+            <p>Loading...</p>
+          </div>
+        </section>
+
+        <!-- stats -   -->
+        <section class="stats">
+          <div class="stats-card"><span>Feels Like</span><strong>-</strong></div>
+          <div class="stats-card"><span>Humidity</span><strong>-</strong></div>
+          <div class="stats-card"><span>Wind</span><strong>-</strong></div>
+          <div class="stats-card"><span>Precipition</span><strong>-</strong></div>
+        </section>
+
+        <section class="daily-forecast">
+            <h3>Daily forecast</h3>
+            <div class="daily-grid">
+                <div class="day-item"></div>
+                <div class="day-item"></div>
+                <div class="day-item"></div>
+                <div class="day-item"></div>
+                <div class="day-item"></div>
+                <div class="day-item"></div>
+                <div class="day-item"></div>
+            </div>
+        </section>
+      </div>
+
+      <aside class="main-right">
+        <div class="hourly-card">
+            <div class="hourly-header">
+                <h3>Hourly forecast</h3>
+                <div class="day-select"><button class="dropdown-list-day">-</button></div>
+            </div>
+
+            <ul class="hourly-list">
+                <li class="skeleton"></li>
+                <li class="skeleton"></li>
+                <li class="skeleton"></li>
+                <li class="skeleton"></li>
+                <li class="skeleton"></li>
+                <li class="skeleton"></li>
+                <li class="skeleton"></li>
+            </ul>
+        </div>
+      </aside>
+    </div>
+  </body>
+</html>
